@@ -293,6 +293,7 @@ fn project_node(key: Option<String>, v: &BinValue, path: NodePath, m: &HashMappe
         BinValue::F32(n) => primitive(key, path, "number", "f32", NodeValue::F32(*n)),
         BinValue::String(s) => primitive(key, path, "string", "string", NodeValue::Str(s.clone())),
         BinValue::Hash(h) => primitive(key, path, "hash", "hash", NodeValue::Str(name32(*h, m))),
+        BinValue::Hash64(h) => primitive(key, path, "hash", "hash", NodeValue::Str(format!("0x{h:016x}"))),
         BinValue::File(h) => primitive(key, path, "string", "file", NodeValue::Str(name64(*h, m))),
         BinValue::Vec2(a) => vector(key, path, "vec2", "f32", &[a[0] as f64, a[1] as f64]),
         BinValue::Vec3(a) => vector(

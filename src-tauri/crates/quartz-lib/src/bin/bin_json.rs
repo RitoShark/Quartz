@@ -163,6 +163,7 @@ fn encode_value(value: &BinValue) -> Value {
         BinValue::Rgba(a) => json!({ "t": tag, "v": a.to_vec() }),
         BinValue::String(s) => json!({ "t": tag, "v": s }),
         BinValue::Hash(v) => json!({ "t": tag, "v": v }),
+        BinValue::Hash64(v) => json!({ "t": tag, "v": format!("0x{v:016x}") }),
         BinValue::File(v) => json!({ "t": tag, "v": v }),
         BinValue::Link(v) => json!({ "t": tag, "v": v }),
         BinValue::List { item, items, .. } => json!({
@@ -360,7 +361,12 @@ fn decode_value(value: &Value) -> Result<BinValue> {
         BinType::Mtx44 => BinValue::Mtx44(decode_f32_array::<16>(map)?),
         BinType::Rgba => BinValue::Rgba(decode_u8_array::<4>(map)?),
         BinType::String => BinValue::String(as_str_field(map, "v")?),
-        BinType::Hash => BinValue::Hash(decode_uint(map)?),
+        BinType::Hash => {
+            if let Some(text) = field(map, "v")?.as_str() {
+                let hex = text.strip_prefix("0x").filter(|hex| hex.len() == 16).ok_or_else(|| err("wide hash requires sixteen hex digits"))?;
+                BinValue::Hash64(u64::from_str_radix(hex, 16).map_err(|_| err("invalid wide hash"))?)
+            } else { BinValue::Hash(decode_uint(map)?) }
+        },
         BinType::File => BinValue::File(decode_u64(map)?),
         BinType::Link => BinValue::Link(decode_uint(map)?),
         BinType::List | BinType::List2 => {
@@ -603,6 +609,29 @@ mod tests {
         let json = to_json(&bin).unwrap();
         let bin2 = from_json(&json).unwrap();
         assert_eq!(bin, bin2);
+    }
+
+    #[test]
+    fn wide_hash_persistence_keeps_width_and_all_bits() {
+        let mut bin = Bin::new();
+        bin.entries.push(BinEntry {
+            path_hash: 1,
+            class_hash: 2,
+            fields: [
+                (3, BinValue::Hash(7)),
+                (4, BinValue::Hash64(7)),
+                (5, BinValue::Hash64(u64::MAX)),
+                (6, BinValue::List {
+                    is_list2: false,
+                    item: BinType::Hash,
+                    items: vec![BinValue::Hash64(0), BinValue::Hash64(u64::MAX)],
+                }),
+            ].into_iter().collect(),
+        });
+        let json = to_json(&bin).unwrap();
+        assert!(json.contains("0x0000000000000007"));
+        assert!(json.contains("0xffffffffffffffff"));
+        assert_eq!(from_json(&json).unwrap(), bin);
     }
 
     #[test]

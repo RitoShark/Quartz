@@ -42,6 +42,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "annotate-snippets"
+version = "0.12.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f211a51805bc641f3ad5b7664c77d2547af685cc33b4cd8d31964027a46f13f1"
+dependencies = [
+ "anstyle",
+ "memchr",
+ "unicode-width 0.2.2",
+]
+
+[[package]]
+name = "anstyle"
+version = "1.0.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "940b3a0ca603d1eade50a4846a2afffd5ef57a9feac2c0e2ec2e14f9ead76000"
+
+[[package]]
 name = "anyhow"
 version = "1.0.102"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -71,6 +88,12 @@ name = "array-init"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d62b7694a562cdf5a74227903507c56ab2cc8bdd1f781ed5cb4cf9c9f810bfc"
+
+[[package]]
+name = "arraydeque"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7d902e3d592a523def97af8f317b08ce16b7ab854c1985a0c671e6f15cebc236"
 
 [[package]]
 name = "async-broadcast"
@@ -1041,6 +1064,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "encoding_rs_io"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fba3fe847045ecff794b9c138293a80db914678c453ad63fbf0c6a9eb6e00b22"
+dependencies = [
+ "encoding_rs",
+]
+
+[[package]]
 name = "endi"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1055,6 +1087,18 @@ dependencies = [
  "num-traits",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "enum_dispatch"
+version = "0.3.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa18ce2bc66555b3218614519ac839ddb759a7d6720732f979ef8d13be147ecd"
+dependencies = [
+ "once_cell",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
 ]
 
 [[package]]
@@ -1599,6 +1643,16 @@ dependencies = [
  "glib-sys",
  "libc",
  "system-deps",
+]
+
+[[package]]
+name = "granit-parser"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e20f99e46474f56bd905c56e817ebddcf377a611f94c53ac4649e4d3fa3c0cd0"
+dependencies = [
+ "arraydeque",
+ "smallvec",
 ]
 
 [[package]]
@@ -2458,6 +2512,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "ltk_game_data"
+version = "0.9.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f52cd780cd802db8517e2e83b503b9730329cde54fa74b62b25ed611312a8128"
+dependencies = [
+ "camino",
+ "glam 0.27.0",
+ "indexmap 2.14.0",
+ "ltk_hash 0.5.0",
+ "ltk_meta",
+ "ltk_primitives",
+ "serde",
+ "serde-saphyr",
+ "serde_json",
+ "thiserror 2.0.18",
+ "toml 1.1.2+spec-1.1.0",
+ "xxhash-rust",
+]
+
+[[package]]
 name = "ltk_hash"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2468,26 +2542,57 @@ dependencies = [
 ]
 
 [[package]]
+name = "ltk_hash"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "54870585760f19cda63812a4436a53eda5a3e771d9dbb314f9a8ea85ff2b5ef9"
+dependencies = [
+ "byteorder",
+ "serde",
+ "xxhash-rust",
+]
+
+[[package]]
 name = "ltk_hashtable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "875c6f20d6fb858ef517749ba810ad29ca8f0d1be240f355d30f172408cbdc7c"
 dependencies = [
  "camino",
- "ltk_hash",
+ "ltk_hash 0.4.0",
  "serde",
  "thiserror 2.0.18",
 ]
 
 [[package]]
 name = "ltk_io_ext"
-version = "0.4.4"
+version = "0.4.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "092554284ee9c83dda80408d9370800aa188e5c2da99bee36a3b06c733ced258"
+checksum = "8c67b7cfc47db08d0f3155f6d8fdde55eebf92ae26ac53d0b109c7c353bb602d"
 dependencies = [
  "byteorder",
  "glam 0.27.0",
  "ltk_primitives",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "ltk_meta"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b1cbff4f78c6fc478a559d3c3075a1945b50d956b4a9759d6f72ec2b513dc78"
+dependencies = [
+ "byteorder",
+ "enum_dispatch",
+ "glam 0.27.0",
+ "indexmap 2.14.0",
+ "log",
+ "ltk_hash 0.5.0",
+ "ltk_io_ext",
+ "ltk_primitives",
+ "miette",
+ "num_enum",
+ "paste",
  "thiserror 1.0.69",
 ]
 
@@ -2533,9 +2638,9 @@ dependencies = [
 
 [[package]]
 name = "ltk_primitives"
-version = "0.3.5"
+version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40c42f3eddcad904acfbdaa7d62efa643e8cad771b27b6a56a24eeabcfc80f94"
+checksum = "c707524d1b8dbc319c302989756357d3acbb628c2391ca6f0f0e0f53de75285e"
 dependencies = [
  "byteorder",
  "glam 0.27.0",
@@ -2584,6 +2689,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
 dependencies = [
  "autocfg",
+]
+
+[[package]]
+name = "miette"
+version = "7.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5f98efec8807c63c752b5bd61f862c165c115b0a35685bdcfd9238c7aeb592b7"
+dependencies = [
+ "cfg-if",
+ "miette-derive",
+ "unicode-width 0.1.14",
+]
+
+[[package]]
+name = "miette-derive"
+version = "7.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db5b29714e950dbb20d5e6f74f9dcec4edbcc1067bb7f8ed198c097b8c1a818b"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
 ]
 
 [[package]]
@@ -2679,6 +2806,12 @@ name = "new_debug_unreachable"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
+
+[[package]]
+name = "nohash-hasher"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2bf50223579dc7cdcfb3bfcacf7069ff68243f8c363f62ffa99cf000a6b9c451"
 
 [[package]]
 name = "nu-ansi-term"
@@ -3402,11 +3535,13 @@ dependencies = [
  "chrono",
  "image",
  "ltk_file",
+ "ltk_game_data",
  "ltk_hashtable",
  "ltk_mod_project",
  "ltk_modpkg",
  "quartz-lib",
  "reqwest 0.12.28",
+ "rmp-serde",
  "semver",
  "serde",
  "serde_json",
@@ -3808,7 +3943,7 @@ dependencies = [
 [[package]]
 name = "ritoshark"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_anim",
  "rs_audio",
@@ -3849,7 +3984,7 @@ dependencies = [
 [[package]]
 name = "rs_anim"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_hash",
  "rs_io",
@@ -3860,7 +3995,7 @@ dependencies = [
 [[package]]
 name = "rs_audio"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "lewton",
  "ogg",
@@ -3872,24 +4007,25 @@ dependencies = [
 [[package]]
 name = "rs_bin"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "indexmap 2.14.0",
  "rs_hash",
  "rs_io",
  "rs_math",
+ "serde_json",
  "thiserror 2.0.18",
 ]
 
 [[package]]
 name = "rs_file"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 
 [[package]]
 name = "rs_hash"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "thiserror 2.0.18",
  "xxhash-rust",
@@ -3898,7 +4034,7 @@ dependencies = [
 [[package]]
 name = "rs_io"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "memmap2",
  "rs_math",
@@ -3908,7 +4044,7 @@ dependencies = [
 [[package]]
 name = "rs_luabin"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_io",
  "thiserror 2.0.18",
@@ -3917,7 +4053,7 @@ dependencies = [
 [[package]]
 name = "rs_mapgeo"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_hash",
  "rs_io",
@@ -3928,7 +4064,7 @@ dependencies = [
 [[package]]
 name = "rs_math"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "glam 0.29.3",
 ]
@@ -3936,7 +4072,7 @@ dependencies = [
 [[package]]
 name = "rs_mesh"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_io",
  "rs_math",
@@ -3946,7 +4082,7 @@ dependencies = [
 [[package]]
 name = "rs_rman"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_io",
  "thiserror 2.0.18",
@@ -3956,7 +4092,7 @@ dependencies = [
 [[package]]
 name = "rs_rst"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "indexmap 2.14.0",
  "rs_hash",
@@ -3967,7 +4103,7 @@ dependencies = [
 [[package]]
 name = "rs_tex"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "ddsfile",
  "image",
@@ -3982,7 +4118,7 @@ dependencies = [
 [[package]]
 name = "rs_troybin"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "rs_hash",
  "rs_io",
@@ -3992,7 +4128,7 @@ dependencies = [
 [[package]]
 name = "rs_wad"
 version = "0.1.0"
-source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=d7be6f67dc6924bd8dd1f063cac52fc3cd379570#d7be6f67dc6924bd8dd1f063cac52fc3cd379570"
+source = "git+https://github.com/RitoShark/RitoShark-Crates?rev=6b43a0d1bd45f64826212bf90a7ef17c1961536e#6b43a0d1bd45f64826212bf90a7ef17c1961536e"
 dependencies = [
  "flate2",
  "rs_hash",
@@ -4253,6 +4389,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde-saphyr"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b8050abb251097357e24aff63ba2c52a6309ecb7d23a5474023df960a02694d8"
+dependencies = [
+ "annotate-snippets",
+ "base64 0.22.1",
+ "encoding_rs_io",
+ "granit-parser",
+ "nohash-hasher",
+ "num-traits",
+ "serde_core",
+ "smallvec",
+ "zmij",
+]
+
+[[package]]
 name = "serde-untagged"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4301,6 +4454,7 @@ version = "1.0.150"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8014e44b4736ed0538adeecded0fce2a272f22dc9578a7eb6b2d9993c74cfb9"
 dependencies = [
+ "indexmap 2.14.0",
  "itoa",
  "memchr",
  "serde",
@@ -5733,6 +5887,18 @@ name = "unicode-segmentation"
 version = "1.13.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6f5d3c3b1bf09027a88a6bc961fc00497d651009560b5463668dc81b0fa87a8"
+
+[[package]]
+name = "unicode-width"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
+
+[[package]]
+name = "unicode-width"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4ac048d71ede7ee76d585517add45da530660ef4390e49b098733c6e897f254"
 
 [[package]]
 name = "unicode-xid"

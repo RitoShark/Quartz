@@ -267,7 +267,12 @@ pub fn json_to_bin(j: &JsonBinValue) -> Result<BinValue> {
             int_of(v[3], 0, 255, "rgba")? as u8,
         ]),
         JsonBinValue::String { v } => BinValue::String(v.clone()),
-        JsonBinValue::Hash { v } => BinValue::Hash(hash32_of(v)?),
+        JsonBinValue::Hash { v } => {
+            let text = v.trim();
+            if text.strip_prefix("0x").or_else(|| text.strip_prefix("0X")).is_some_and(|hex| hex.len() > 8) {
+                BinValue::Hash64(hash64_of(text)?)
+            } else { BinValue::Hash(hash32_of(text)?) }
+        },
         JsonBinValue::File { v } => BinValue::File(hash64_of(v)?),
         JsonBinValue::Link { v } => BinValue::Link(hash32_of(v)?),
         JsonBinValue::List { item, items } => {
@@ -368,6 +373,7 @@ pub fn bin_to_json(v: &BinValue, m: &HashMapper) -> JsonBinValue {
         },
         BinValue::String(s) => JsonBinValue::String { v: s.clone() },
         BinValue::Hash(h) => JsonBinValue::Hash { v: name32(*h, m) },
+        BinValue::Hash64(h) => JsonBinValue::Hash { v: format!("0x{h:016x}") },
         BinValue::File(h) => JsonBinValue::File { v: name64(*h, m) },
         BinValue::Link(h) => JsonBinValue::Link { v: name32(*h, m) },
         // List2 flavor is dropped here by design; `apply` re-instates the
@@ -407,6 +413,20 @@ pub fn bin_to_json(v: &BinValue, m: &HashMapper) -> JsonBinValue {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn wide_hashes_survive_editor_json_without_precision_or_width_loss() {
+        let names = HashMapper::new();
+        for n in [0, 7, 0x7394ac037b93317f, u64::MAX] {
+            let original = BinValue::Hash64(n);
+            let json = bin_to_json(&original, &names);
+            let wire = serde_json::to_string(&json).unwrap();
+            assert!(wire.contains(&format!("0x{n:016x}")));
+            let decoded: JsonBinValue = serde_json::from_str(&wire).unwrap();
+            assert_eq!(json_to_bin(&decoded).unwrap(), original);
+        }
+        assert_eq!(json_to_bin(&JsonBinValue::Hash { v: "0x00000007".into() }).unwrap(), BinValue::Hash(7));
+    }
 
     #[test]
     fn hash_names_and_hex_parse() {

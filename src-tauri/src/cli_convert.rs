@@ -6,6 +6,9 @@ Windows) so the user sees success/errors. */
 
 use std::path::{Path, PathBuf};
 
+#[path = "modpkg_game_data.rs"]
+mod modpkg_game_data;
+
 use quartz_lib::bin::{bin_trailer, converter, hash_capture, ritoshark_bridge};
 use quartz_lib::tex;
 use quartz_lib::wad_explorer;
@@ -1356,6 +1359,8 @@ fn unpack_modpkg(archive_path: &Path) -> Result<String, String> {
             return Err(format!("failed to unpack modpkg: {e}"));
         }
     };
+
+    modpkg_game_data::restore(archive_path, &out_dir)?;
 
     let origin = serde_json::json!({ "archive_name": name(archive_path) });
     std::fs::write(
